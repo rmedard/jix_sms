@@ -3,5 +3,6 @@ type: module
 description: 'This JIR module handles all sms tasks.'
 packege: JIX Custom Modules
 core: 8.x
+configure: jix_sms.general.settings
 
 version: '8.x-1.0'
