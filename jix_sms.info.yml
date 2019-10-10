@@ -1,0 +1,7 @@
+name: JiX SMS Module
+type: module
+description: 'This JIR module handles all sms tasks.'
+packege: JIX Custom Modules
+core: 8.x
+
+version: '8.x-1.0'

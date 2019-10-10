@@ -1,0 +1,7 @@
+jir_sms.dailysms:
+  path: '/admin/config/jix/jix_sms'
+  defaults:
+    _title: 'JIX Sms Settings'
+    _form: '\Drupal\jix_sms\Form\JixSMSConfigurationForm'
+  requirements:
+    _access: 'TRUE'

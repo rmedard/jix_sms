@@ -1,0 +1,7 @@
+jix_sms.dailysms:
+  type: config_object
+  label: 'JIR SMS Settings'
+  mapping:
+    number_of_jobs:
+      type: number
+      label: 'Number of jobs'
