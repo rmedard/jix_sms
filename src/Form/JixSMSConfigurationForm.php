@@ -44,6 +44,28 @@ class JixSMSConfigurationForm extends ConfigFormBase
             '#default_value' => $this->config('jix_sms.dailysms')->get('nbr'),
             '#description' => $this->t('Number of job sms files to generate at a time.')
         );
+        $form['mtarget.ftp.host'] = array(
+            '#type' => 'text',
+            '#title' => $this->t('Host'),
+            '#default_value' => $this->config('jix_sms.dailysms')->get('nbr'),
+            '#description' => $this->t('Host server name')
+        );
+        $form['mtarget.ftp.port'] = array(
+            '#type' => 'number',
+            '#title' => $this->t('Port'),
+            '#default_value' => $this->config('jix_sms.dailysms')->get('nbr'),
+            '#description' => $this->t('Host server port')
+        );
+        $form['mtarget.ftp.username'] = array(
+            '#type' => 'text',
+            '#title' => $this->t('Username'),
+            '#default_value' => $this->config('jix_sms.dailysms')->get('nbr')
+        );
+        $form['mtarget.ftp.password'] = array(
+            '#type' => 'text',
+            '#title' => $this->t('Password'),
+            '#default_value' => $this->config('jix_sms.dailysms')->get('nbr')
+        );
         return parent::buildForm($form, $form_state);
     }
 
