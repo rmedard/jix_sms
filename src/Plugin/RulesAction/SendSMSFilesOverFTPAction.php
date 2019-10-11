@@ -31,7 +31,7 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
             define('NET_SSH2_LOGGING', 2);
             $sftpClient = new SFTP('sftp.mtarget.fr', 31022);
             if (!$sftpClient->login('jobincameroun', 'GcsJXxKaDY')) {
-                Drupal::logger('jix_sms')->error(json_encode($sftpClient->getLog()));
+                Drupal::logger('jix_sms')->error($sftpClient->getLog());
             } else {
                 Drupal::logger('jix_sms')->info('Login Successful...');
                 $sftpClient->disconnect();
