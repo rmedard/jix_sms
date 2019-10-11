@@ -6,6 +6,7 @@ namespace Drupal\jix_sms\Plugin\RulesAction;
 
 use Drupal;
 use Drupal\rules\Core\RulesActionBase;
+use http\Exception\UnexpectedValueException;
 use phpseclib\Net\SFTP;
 
 /**
@@ -26,11 +27,15 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
     protected function doExecute()
     {
         $ftpClient = new SFTP('sftp.mtarget.fr', 31022);
-        if (!$ftpClient->login('jobincameroun', 'GcsJXxKaDY')) {
-            Drupal::logger('jix_sms')->error('Login Failed...');
-        } else {
-            Drupal::logger('jix_sms')->info('Login Successful...');
-            $ftpClient->disconnect();
+        try {
+            if (!$ftpClient->login('jobincameroun', 'GcsJXxKaDY')) {
+                Drupal::logger('jix_sms')->error('Login Failed...');
+            } else {
+                Drupal::logger('jix_sms')->info('Login Successful...');
+                $ftpClient->disconnect();
+            }
+        } catch (UnexpectedValueException $exception) {
+            Drupal::logger('jix_sms')->error('Message: ' . $exception->getMessage());
         }
     }
 }
