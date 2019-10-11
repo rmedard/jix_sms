@@ -26,13 +26,13 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
      */
     protected function doExecute()
     {
-        $ftpClient = new SFTP('sftp.mtarget.fr', 31022);
+        $sftpClient = new SFTP('sftp.mtarget.fr', 31022);
         try {
-            if (!$ftpClient->login('jobincameroun', 'GcsJXxKaDY')) {
-                Drupal::logger('jix_sms')->error(json_encode($ftpClient->getSFTPErrors()));
+            if (!$sftpClient->login('jobincameroun', 'GcsJXxKaDY')) {
+                Drupal::logger('jix_sms')->error($sftpClient->getLastSFTPError());
             } else {
                 Drupal::logger('jix_sms')->info('Login Successful...');
-                $ftpClient->disconnect();
+                $sftpClient->disconnect();
             }
         } catch (UnexpectedValueException $exception) {
             Drupal::logger('jix_sms')->error('Message: ' . $exception->getMessage());
