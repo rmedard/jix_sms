@@ -60,18 +60,18 @@ class JixSMSConfigurationForm extends ConfigFormBase
             '#default_value' => $config->get('mtarget_ftp_host'),
             '#description' => $this->t('Host server name')
         );
-        $form['mtarget_ftp_port'] = array(
+        $form['ftp_settings']['mtarget_ftp_port'] = array(
             '#type' => 'number',
             '#title' => $this->t('Port'),
             '#default_value' => $config->get('mtarget_ftp_port'),
             '#description' => $this->t('Host server port')
         );
-        $form['mtarget_ftp_username'] = array(
+        $form['ftp_settings']['mtarget_ftp_username'] = array(
             '#type' => 'textfield',
             '#title' => $this->t('Username'),
             '#default_value' => $config->get('mtarget_ftp_username')
         );
-        $form['mtarget_ftp_password'] = array(
+        $form['ftp_settings']['mtarget_ftp_password'] = array(
             '#type' => 'textfield',
             '#title' => $this->t('Password'),
             '#default_value' => $config->get('mtarget_ftp_password')
