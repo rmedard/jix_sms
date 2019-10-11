@@ -6,8 +6,7 @@ namespace Drupal\jix_sms\Plugin\RulesAction;
 
 use Drupal;
 use Drupal\rules\Core\RulesActionBase;
-use FtpClient\FtpClient;
-use FtpClient\FtpException;
+use phpseclib\Net\SFTP;
 
 /**
  * Class SendSMSFilesOverFTPAction
@@ -26,14 +25,12 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
      */
     protected function doExecute()
     {
-        try {
-            $ftpClient = new FtpClient();
-            $ftpClient->connect('sftp.mtarget.fr', false, 31022);
-            $ftpClient->login('jobincameroun', 'GcsJXxKaDY');
+        $ftpClient = new SFTP('sftp.mtarget.fr', 31022);
+        if (!$ftpClient->login('jobincameroun', 'GcsJXxKaDY')) {
+            Drupal::logger('jix_sms')->error('Login Failed...');
+            $ftpClient->disconnect();
+        } else {
             Drupal::logger('jix_sms')->info('Login Successful...');
-        } catch (FtpException $e) {
-            Drupal::logger('jix_sms')
-                ->error('FTP Error Code: ' . $e->getCode() . ' | Message: ' . $e->getMessage());
         }
     }
 }
