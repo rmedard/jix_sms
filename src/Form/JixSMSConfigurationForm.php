@@ -48,14 +48,13 @@ class JixSMSConfigurationForm extends ConfigFormBase
             '#default_value' => $config->get('number_daily_jobs'),
             '#description' => $this->t('Number of job sms files to generate at a time.')
         );
-        $form['default_center'] = array(
+        $form['ftp_settings'] = array(
             '#title' => $this->t('FTP Settings'),
-            '#description' => $this->t('FTP Settings.'),
             '#type' => 'fieldset',
             '#collapsible' => false,
             '#collapsed' => false,
         );
-        $form['default_center']['mtarget_ftp_host'] = array(
+        $form['ftp_settings']['mtarget_ftp_host'] = array(
             '#type' => 'textfield',
             '#title' => $this->t('Host'),
             '#default_value' => $config->get('mtarget_ftp_host'),
