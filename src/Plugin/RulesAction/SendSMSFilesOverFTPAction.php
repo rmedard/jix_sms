@@ -27,7 +27,7 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
      */
     protected function doExecute()
     {
-        define('NET_SSH2_LOGGING', SSH2::LOG_COMPLEX);
+        define('NET_SSH2_LOGGING', '2');
         $sftpClient = new SFTP('sftp.mtarget.fr', 31022);
         try {
             if (!$sftpClient->login('jobincameroun', 'GcsJXxKaDY')) {
