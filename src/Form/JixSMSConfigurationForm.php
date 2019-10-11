@@ -10,7 +10,7 @@ use Drupal\Core\Form\FormStateInterface;
 class JixSMSConfigurationForm extends ConfigFormBase
 {
 
-    const SETTINGS = 'jix_sms.daily.sms';
+    const SETTINGS = 'jix_sms.general.settings';
 
     /**
      * Gets the configuration names that will be editable.
