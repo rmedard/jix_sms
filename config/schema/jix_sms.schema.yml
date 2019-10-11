@@ -1,7 +1,20 @@
-jix_sms.dailysms:
+jix_sms.daily.sms:
   type: config_object
   label: 'JIR SMS Settings'
   mapping:
-    number_of_jobs:
+    number.daily.jobs:
       type: number
       label: 'Number of jobs'
+    mtarget.ftp:
+      host:
+        type: textfield
+        label: 'Host'
+      port:
+        type: number
+        label: 'Port'
+      username:
+        type: textfield
+        label: 'Username'
+      password:
+        type: textfield
+        label: 'Password'

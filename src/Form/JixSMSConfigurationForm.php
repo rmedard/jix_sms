@@ -10,6 +10,8 @@ use Drupal\Core\Form\FormStateInterface;
 class JixSMSConfigurationForm extends ConfigFormBase
 {
 
+    const SETTINGS = 'jix_sms.daily.sms';
+
     /**
      * Gets the configuration names that will be editable.
      *
@@ -19,7 +21,7 @@ class JixSMSConfigurationForm extends ConfigFormBase
      */
     protected function getEditableConfigNames()
     {
-        return ['jix_sms.dailysms'];
+        return [static::SETTINGS];
     }
 
     /**
@@ -37,43 +39,46 @@ class JixSMSConfigurationForm extends ConfigFormBase
         return 'jix_sms_settings_form';
     }
 
-    public function buildForm(array $form, FormStateInterface $form_state){
-        $form['number_of_jobs'] = array(
+    public function buildForm(array $form, FormStateInterface $form_state)
+    {
+        $config = $this->config(static::SETTINGS);
+        $form['number.daily.jobs'] = array(
             '#type' => 'number',
             '#title' => $this->t('Number of jobs'),
-            '#default_value' => $this->config('jix_sms.dailysms')->get('nbr'),
+            '#default_value' => $config->get('jix_sms.dailysms')->get('nbr'),
             '#description' => $this->t('Number of job sms files to generate at a time.')
         );
         $form['mtarget.ftp.host'] = array(
             '#type' => 'textfield',
             '#title' => $this->t('Host'),
-            '#default_value' => $this->config('jix_sms.dailysms')->get('nbr'),
+            '#default_value' => $config->get('jix_sms.dailysms')->get('nbr'),
             '#description' => $this->t('Host server name')
         );
         $form['mtarget.ftp.port'] = array(
             '#type' => 'number',
             '#title' => $this->t('Port'),
-            '#default_value' => $this->config('jix_sms.dailysms')->get('nbr'),
+            '#default_value' => $config->get('jix_sms.dailysms')->get('nbr'),
             '#description' => $this->t('Host server port')
         );
         $form['mtarget.ftp.username'] = array(
             '#type' => 'textfield',
             '#title' => $this->t('Username'),
-            '#default_value' => $this->config('jix_sms.dailysms')->get('nbr')
+            '#default_value' => $config->get('jix_sms.dailysms')->get('nbr')
         );
         $form['mtarget.ftp.password'] = array(
             '#type' => 'textfield',
             '#title' => $this->t('Password'),
-            '#default_value' => $this->config('jix_sms.dailysms')->get('nbr')
+            '#default_value' => $config->get('jix_sms.dailysms')->get('nbr')
         );
         return parent::buildForm($form, $form_state);
     }
 
-    public function validateForm(array &$form, FormStateInterface $form_state){
-        if($form_state->isValueEmpty('number_of_jobs')){
+    public function validateForm(array &$form, FormStateInterface $form_state)
+    {
+        if ($form_state->isValueEmpty('number_of_jobs')) {
             $form_state->setErrorByName('number_of_jobs', t('Number of jobs cannot be empty nor 0'));
-        }else{
-            if($form_state->getValue('number_of_jobs') > 5){
+        } else {
+            if ($form_state->getValue('number_of_jobs') > 5) {
                 $form_state->setErrorByName('number_of_jobs', t('Number of jobs must be between 1 and 5'));
             }
         }
