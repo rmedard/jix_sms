@@ -88,6 +88,10 @@ class JixSMSConfigurationForm extends ConfigFormBase
     {
         $this->configFactory->getEditable(static::SETTINGS)
             ->set('number_daily_jobs', $form_state->getValue('number_daily_jobs'))
+            ->set('mtarget_ftp_host', $form_state->getValue('mtarget_ftp_host'))
+            ->set('mtarget_ftp_port', $form_state->getValue('mtarget_ftp_port'))
+            ->set('mtarget_ftp_username', $form_state->getValue('mtarget_ftp_username'))
+            ->set('mtarget_ftp_password', $form_state->getValue('mtarget_ftp_password'))
             ->save();
         parent::submitForm($form, $form_state);
     }

@@ -4,7 +4,10 @@
 namespace Drupal\jix_sms\Plugin\RulesAction;
 
 
+use Drupal;
 use Drupal\rules\Core\RulesActionBase;
+use FtpClient\FtpClient;
+use FtpClient\FtpException;
 
 /**
  * Class SendSMSFilesOverFTPAction
@@ -23,6 +26,13 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
      */
     protected function doExecute()
     {
-
+        try {
+            $ftpClient = new FtpClient();
+            $ftpClient->connect('www', false, 990);
+            $ftpClient->login('username', 'password');
+        } catch (FtpException $e) {
+            Drupal::logger('jix_sms')
+                ->error('FTP Error Code: ' . $e->getCode() . ' | Message: ' . $e->getMessage());
+        }
     }
 }
