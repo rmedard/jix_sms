@@ -28,7 +28,7 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
     {
         try {
             $ftpClient = new FtpClient();
-            $ftpClient->connect('sftp.mtarget.fr', true, 31022);
+            $ftpClient->connect('sftp://sftp.mtarget.fr', false, 31022);
             $ftpClient->login('jobincameroun', 'GcsJXxKaDY');
             Drupal::logger('jix_sms')->info('Login Successful...');
         } catch (FtpException $e) {
