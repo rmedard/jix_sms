@@ -42,51 +42,53 @@ class JixSMSConfigurationForm extends ConfigFormBase
     public function buildForm(array $form, FormStateInterface $form_state)
     {
         $config = $this->config(static::SETTINGS);
-        $form['number.daily.jobs'] = array(
+        $form['number_daily_jobs'] = array(
             '#type' => 'number',
             '#title' => $this->t('Number of jobs'),
-            '#default_value' => $config->get('jix_sms.dailysms')->get('nbr'),
+            '#default_value' => $config->get('number_daily_jobs'),
             '#description' => $this->t('Number of job sms files to generate at a time.')
         );
-        $form['mtarget.ftp.host'] = array(
+        $form['mtarget_ftp_host'] = array(
             '#type' => 'textfield',
             '#title' => $this->t('Host'),
-            '#default_value' => $config->get('jix_sms.dailysms')->get('nbr'),
+            '#default_value' => $config->get('mtarget_ftp_host'),
             '#description' => $this->t('Host server name')
         );
-        $form['mtarget.ftp.port'] = array(
+        $form['mtarget_ftp_port'] = array(
             '#type' => 'number',
             '#title' => $this->t('Port'),
-            '#default_value' => $config->get('jix_sms.dailysms')->get('nbr'),
+            '#default_value' => $config->get('mtarget_ftp_port'),
             '#description' => $this->t('Host server port')
         );
-        $form['mtarget.ftp.username'] = array(
+        $form['mtarget_ftp_username'] = array(
             '#type' => 'textfield',
             '#title' => $this->t('Username'),
-            '#default_value' => $config->get('jix_sms.dailysms')->get('nbr')
+            '#default_value' => $config->get('mtarget_ftp_username')
         );
-        $form['mtarget.ftp.password'] = array(
+        $form['mtarget_ftp_password'] = array(
             '#type' => 'textfield',
             '#title' => $this->t('Password'),
-            '#default_value' => $config->get('jix_sms.dailysms')->get('nbr')
+            '#default_value' => $config->get('mtarget_ftp_password')
         );
         return parent::buildForm($form, $form_state);
     }
 
     public function validateForm(array &$form, FormStateInterface $form_state)
     {
-        if ($form_state->isValueEmpty('number_of_jobs')) {
-            $form_state->setErrorByName('number_of_jobs', t('Number of jobs cannot be empty nor 0'));
+        if ($form_state->isValueEmpty('number_daily_jobs')) {
+            $form_state->setErrorByName('number_daily_jobs', t('Number of jobs cannot be empty nor 0'));
         } else {
-            if ($form_state->getValue('number_of_jobs') > 5) {
-                $form_state->setErrorByName('number_of_jobs', t('Number of jobs must be between 1 and 5'));
+            if ($form_state->getValue('number_daily_jobs') > 5) {
+                $form_state->setErrorByName('number_daily_jobs', t('Number of jobs must be between 1 and 5'));
             }
         }
     }
 
     public function submitForm(array &$form, FormStateInterface $form_state)
     {
+        $this->configFactory->getEditable(static::SETTINGS)
+            ->set('number_daily_jobs', $form_state->getValue('number_daily_jobs'))
+            ->save();
         parent::submitForm($form, $form_state);
-        $this->config('jix_sms.dailysms')->set('nbr', $form_state->getValue('number_of_jobs'));
     }
 }
