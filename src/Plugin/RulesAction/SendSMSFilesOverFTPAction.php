@@ -25,7 +25,7 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
      */
     protected function doExecute()
     {
-        $ftpClient = new SFTP('sftp.mtarget.fr', 31022);
+        $ftpClient = new SFTP('sftp://sftp.mtarget.fr', 31022);
         if (!$ftpClient->login('jobincameroun', 'GcsJXxKaDY')) {
             Drupal::logger('jix_sms')->error('Login Failed...');
             $ftpClient->disconnect();
