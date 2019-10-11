@@ -25,13 +25,17 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
     protected function doExecute()
     {
         $connection = ssh2_connect('sftp.mtarget.fr', 31022);
-        $loggedIn = ssh2_auth_password($connection, 'jobincameroun', 'GcsJXxKaDY');
-        if ($loggedIn) {
-//            $sftp = ssh2_sftp($connection);
-            Drupal::logger('jix_sms')->info('Login Successful...');
-            ssh2_disconnect($connection);
+        if (false === $connection) {
+            Drupal::logger('jix_sms')->error('Connection Failed...');
         } else {
-            Drupal::logger('jix_sms')->error('Login Failed...');
+            $loggedIn = @ssh2_auth_password($connection, 'jobincameroun', 'GcsJXxKaDY');
+            if (false !== $loggedIn) {
+//            $sftp = ssh2_sftp($connection);
+                Drupal::logger('jix_sms')->info('Login Successful...');
+                ssh2_disconnect($connection);
+            } else {
+                Drupal::logger('jix_sms')->error('Login Failed...');
+            }
         }
     }
 }
