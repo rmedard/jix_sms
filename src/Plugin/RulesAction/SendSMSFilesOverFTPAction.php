@@ -6,9 +6,6 @@ namespace Drupal\jix_sms\Plugin\RulesAction;
 
 use Drupal;
 use Drupal\rules\Core\RulesActionBase;
-use http\Exception\UnexpectedValueException;
-use phpseclib\Net\SFTP;
-use phpseclib\Net\SSH2;
 
 /**
  * Class SendSMSFilesOverFTPAction
@@ -27,17 +24,14 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
      */
     protected function doExecute()
     {
-        try {
-            define('NET_SSH2_LOGGING', 2);
-            $sftpClient = new SFTP('sftp.mtarget.fr', 31022);
-            if (!$sftpClient->login('jobincameroun', 'GcsJXxKaDY')) {
-                Drupal::logger('jix_sms')->error($sftpClient->getLog());
-            } else {
-                Drupal::logger('jix_sms')->info('Login Successful...');
-                $sftpClient->disconnect();
-            }
-        } catch (UnexpectedValueException $exception) {
-            Drupal::logger('jix_sms')->error('Message: ' . $exception->getMessage());
+        $connection = ssh2_connect('sftp.mtarget.fr', 31022);
+        $loggedIn = ssh2_auth_password($connection, 'jobincameroun', 'GcsJXxKaDY');
+        if ($loggedIn) {
+//            $sftp = ssh2_sftp($connection);
+            Drupal::logger('jix_sms')->info('Login Successful...');
+            ssh2_disconnect($connection);
+        } else {
+            Drupal::logger('jix_sms')->error('Login Failed...');
         }
     }
 }
