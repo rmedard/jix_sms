@@ -26,25 +26,25 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
     protected function doExecute()
     {
 //        Drupal::logger('jix_sms')->info('Action executed...');
-//        $sftp = new Net_SFTP('sftp.mtarget.fr', 31022);
-//        $loggedIn = $sftp->login('jobincameroun', 'GcsJXxKaDY');
-//        if (false === $loggedIn) {
-//            Drupal::logger('jix_sms')->error('Login Failed...');
-//        } else {
-//            Drupal::logger('jix_sms')->info('Login Successful...');
-//        }
-
-        $connection = ssh2_connect('sftp.mtarget.fr', 31022);
-        if (false === $connection) {
-            Drupal::logger('jix_sms')->error('SSH Connection Failed...');
+        $sftp = new Net_SFTP('sftp.mtarget.fr', 31022);
+        $loggedIn = $sftp->login('jobincameroun', 'GcsJXxKaDY');
+        if (false === $loggedIn) {
+            Drupal::logger('jix_sms')->error('Login Failed...');
         } else {
-            $loggedIn = ssh2_auth_password($connection, 'jobincameroun', 'GcsJXxKaDY');
-            if (false === $loggedIn) {
-                Drupal::logger('jix_sms')->error('SSH Login Failed...');
-            } else {
-                ssh2_disconnect($connection);
-                Drupal::logger('jix_sms')->info('Login Successful...');
-            }
+            Drupal::logger('jix_sms')->info('Login Successful...');
         }
+
+//        $connection = ssh2_connect('sftp.mtarget.fr', 31022);
+//        if (false === $connection) {
+//            Drupal::logger('jix_sms')->error('SSH Connection Failed...');
+//        } else {
+//            $loggedIn = ssh2_auth_password($connection, 'jobincameroun', 'GcsJXxKaDY');
+//            if (false === $loggedIn) {
+//                Drupal::logger('jix_sms')->error('SSH Login Failed...');
+//            } else {
+//                ssh2_disconnect($connection);
+//                Drupal::logger('jix_sms')->info('Login Successful...');
+//            }
+//        }
     }
 }
