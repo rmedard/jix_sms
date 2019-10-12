@@ -6,6 +6,8 @@ namespace Drupal\jix_sms\Plugin\RulesAction;
 
 use Drupal;
 use Drupal\rules\Core\RulesActionBase;
+use phpseclib\Net\SFTP;
+use phpseclib\Net\SSH2;
 
 /**
  * Class SendSMSFilesOverFTPAction
@@ -24,18 +26,16 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
      */
     protected function doExecute()
     {
-        $connection = ssh2_connect('sftp.mtarget.fr', 31022);
-        if (false === $connection) {
-            Drupal::logger('jix_sms')->error('Connection Failed...');
+        define('NET_SSH2_LOGGING', 2);
+        $sftp = new SFTP('sftp.mtarget.fr', 31022);
+//        $ssh = new SSH2('sftp.mtarget.fr', 31022);
+        $loggedIn = $sftp->login('jobincameroun', 'GcsJXxKaDY');
+//        $loggedIn = $ssh->login('jobincameroun', 'GcsJXxKaDY');
+        if (false === $loggedIn) {
+            Drupal::logger('jix_sms')->error('Login Failed...');
+            Drupal::logger('jix_sms')->error($sftp->getLog());
         } else {
-            $loggedIn = @ssh2_auth_password($connection, 'jobincameroun', 'GcsJXxKaDY');
-            if (false !== $loggedIn) {
-//            $sftp = ssh2_sftp($connection);
-                Drupal::logger('jix_sms')->info('Login Successful...');
-                ssh2_disconnect($connection);
-            } else {
-                Drupal::logger('jix_sms')->error('Login Failed...');
-            }
+            Drupal::logger('jix_sms')->info('Login Successful...');
         }
     }
 }
