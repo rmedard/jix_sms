@@ -38,6 +38,7 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
             Make sure the outgoing port is open on this server.');
         } else {
             Drupal::logger('jix_sms')->info('Login Successful...');
+            Drupal::logger('jix_sms')->info($sftp->nlist());
             if ($sftp->isConnected()) {
                 $sftp->disconnect();
             }
