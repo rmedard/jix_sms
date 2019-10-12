@@ -6,7 +6,7 @@ namespace Drupal\jix_sms\Plugin\RulesAction;
 
 use Drupal;
 use Drupal\rules\Core\RulesActionBase;
-use Net_SFTP;
+use phpseclib\Net\SFTP;
 
 /**
  * Class SendSMSFilesOverFTPAction
@@ -26,7 +26,7 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
     protected function doExecute()
     {
 //        Drupal::logger('jix_sms')->info('Action executed...');
-        $sftp = new Net_SFTP('sftp.mtarget.fr', 31022);
+        $sftp = new SFTP('sftp.mtarget.fr', 31022);
         $loggedIn = $sftp->login('jobincameroun', 'GcsJXxKaDY');
         if (false === $loggedIn) {
             Drupal::logger('jix_sms')->error('Login Failed...');
