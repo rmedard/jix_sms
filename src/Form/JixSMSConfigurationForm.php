@@ -122,7 +122,9 @@ class JixSMSConfigurationForm extends ConfigFormBase
             Drupal::messenger()->addWarning('Connection to SFTP server could not be verified...');
         } else {
             Drupal::messenger()->addStatus('Connection to SFTP server is successful...');
-//            $sftp->disconnect();
+            if ($sftp->isConnected()) {
+                $sftp->disconnect();
+            }
         }
     }
 }
