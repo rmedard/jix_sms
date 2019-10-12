@@ -25,14 +25,20 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
      */
     protected function doExecute()
     {
-        Drupal::logger('jix_sms')->info('Action executed...');
-        define('NET_SFTP_LOGGING', NET_SFTP_LOG_COMPLEX);
-        $sftp = new Net_SFTP('sftp.mtarget.fr', 31022);
-        $loggedIn = $sftp->login('jobincameroun', 'GcsJXxKaDY');
-        if (false === $loggedIn) {
+//        Drupal::logger('jix_sms')->info('Action executed...');
+//        $sftp = new Net_SFTP('sftp.mtarget.fr', 31022);
+//        $loggedIn = $sftp->login('jobincameroun', 'GcsJXxKaDY');
+//        if (false === $loggedIn) {
+//            Drupal::logger('jix_sms')->error('Login Failed...');
+//        } else {
+//            Drupal::logger('jix_sms')->info('Login Successful...');
+//        }
+
+        $connection = ssh2_connect('sftp.mtarget.fr', 31022);
+        if (false === $connection) {
             Drupal::logger('jix_sms')->error('Login Failed...');
-            Drupal::logger('jix_sms')->error($sftp->getSFTPLog());
         } else {
+            ssh2_auth_password($connection, 'jobincameroun', 'GcsJXxKaDY');
             Drupal::logger('jix_sms')->info('Login Successful...');
         }
     }
