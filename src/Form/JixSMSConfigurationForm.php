@@ -46,6 +46,7 @@ class JixSMSConfigurationForm extends ConfigFormBase
             '#type' => 'number',
             '#title' => $this->t('Number of jobs'),
             '#default_value' => $config->get('number_daily_jobs'),
+            '#required' => true,
             '#description' => $this->t('Number of job sms files to generate at a time.')
         );
         $form['ftp_settings'] = array(
@@ -58,22 +59,26 @@ class JixSMSConfigurationForm extends ConfigFormBase
             '#type' => 'textfield',
             '#title' => $this->t('Host'),
             '#default_value' => $config->get('mtarget_ftp_host'),
+            '#required' => true,
             '#description' => $this->t('Host server name')
         );
         $form['ftp_settings']['mtarget_ftp_port'] = array(
             '#type' => 'number',
             '#title' => $this->t('Port'),
             '#default_value' => $config->get('mtarget_ftp_port'),
+            '#required' => true,
             '#description' => $this->t('Host server port')
         );
         $form['ftp_settings']['mtarget_ftp_username'] = array(
             '#type' => 'textfield',
             '#title' => $this->t('Username'),
+            '#required' => true,
             '#default_value' => $config->get('mtarget_ftp_username')
         );
         $form['ftp_settings']['mtarget_ftp_password'] = array(
-            '#type' => 'textfield',
+            '#type' => 'password',
             '#title' => $this->t('Password'),
+            '#required' => true,
             '#default_value' => $config->get('mtarget_ftp_password')
         );
         return parent::buildForm($form, $form_state);
