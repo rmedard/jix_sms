@@ -26,9 +26,13 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
     protected function doExecute()
     {
         $config = Drupal::config('jix_sms.general.settings');
-        Drupal::logger('jix_sms')->info('username: ' . $config->get('mtarget_ftp_username') . ' | Password: ' . $config->get('mtarget_ftp_password'));
-        $sftp = new SFTP('sftp.mtarget.fr', 31022);
-        $loggedIn = $sftp->login('jobincameroun', 'GcsJXxKaDY');
+        $host = $config->get('mtarget_ftp_host');
+        $port = intval($config->get('mtarget_ftp_port'));
+        $username = $config->get('mtarget_ftp_username');
+        $password = $config->get('mtarget_ftp_password');
+        Drupal::logger('jix_sms')->info('username: ' . $username . ' | Password: ' . $password);
+        $sftp = new SFTP($host, $port);
+        $loggedIn = $sftp->login($username, $password);
         if (false === $loggedIn) {
             Drupal::logger('jix_sms')->error('Login Failed...');
         } else {

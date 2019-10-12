@@ -100,7 +100,7 @@ class JixSMSConfigurationForm extends ConfigFormBase
     public function submitForm(array &$form, FormStateInterface $form_state)
     {
         $host = $form_state->getValue('mtarget_ftp_host');
-        $port = $form_state->getValue('mtarget_ftp_port');
+        $port = intval($form_state->getValue('mtarget_ftp_port'));
         $username = $form_state->getValue('mtarget_ftp_username');
         $password = $form_state->getValue('mtarget_ftp_password');
         if (empty($password)) {
