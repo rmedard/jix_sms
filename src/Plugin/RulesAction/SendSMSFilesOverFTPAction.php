@@ -6,8 +6,7 @@ namespace Drupal\jix_sms\Plugin\RulesAction;
 
 use Drupal;
 use Drupal\rules\Core\RulesActionBase;
-use phpseclib\Net\SFTP;
-use phpseclib\Net\SSH2;
+use Net_SFTP;
 
 /**
  * Class SendSMSFilesOverFTPAction
@@ -26,14 +25,14 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
      */
     protected function doExecute()
     {
-        define('NET_SSH2_LOGGING', 2);
-//        $sftp = new SFTP('sftp.mtarget.fr', 31022);
-        $ssh = new SSH2('sftp.mtarget.fr', 31022);
-//        $loggedIn = $sftp->login('jobincameroun', 'GcsJXxKaDY');
-        $loggedIn = $ssh->login('jobincameroun', 'GcsJXxKaDY');
+        define('NET_SFTP_LOGGING', NET_SFTP_LOG_COMPLEX);
+        $sftp = new Net_SFTP('sftp.mtarget.fr', 31022);
+//        $ssh = new SSH2('sftp.mtarget.fr', 31022);
+        $loggedIn = $sftp->login('jobincameroun', 'GcsJXxKaDY');
+//        $loggedIn = $ssh->login('jobincameroun', 'GcsJXxKaDY');
         if (false === $loggedIn) {
             Drupal::logger('jix_sms')->error('Login Failed...');
-//            Drupal::logger('jix_sms')->error(json_encode($sftp->getSFTPErrors()));
+            Drupal::logger('jix_sms')->error($sftp->getSFTPLog());
         } else {
             Drupal::logger('jix_sms')->info('Login Successful...');
         }
