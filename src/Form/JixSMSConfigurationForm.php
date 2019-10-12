@@ -78,7 +78,6 @@ class JixSMSConfigurationForm extends ConfigFormBase
         $form['ftp_settings']['mtarget_ftp_password'] = array(
             '#type' => 'password',
             '#title' => $this->t('Password'),
-            '#required' => true,
             '#default_value' => $config->get('mtarget_ftp_password')
         );
         return parent::buildForm($form, $form_state);
