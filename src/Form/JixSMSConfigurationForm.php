@@ -4,8 +4,10 @@
 namespace Drupal\jix_sms\Form;
 
 
+use Drupal;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use phpseclib\Net\SFTP;
 
 class JixSMSConfigurationForm extends ConfigFormBase
 {
@@ -72,13 +74,14 @@ class JixSMSConfigurationForm extends ConfigFormBase
         $form['ftp_settings']['mtarget_ftp_username'] = array(
             '#type' => 'textfield',
             '#title' => $this->t('Username'),
-            '#required' => true,
-            '#default_value' => $config->get('mtarget_ftp_username')
+            '#default_value' => $config->get('mtarget_ftp_username'),
+            '#description' => $this->t('SFTP server username. Leave blank if not required')
         );
         $form['ftp_settings']['mtarget_ftp_password'] = array(
             '#type' => 'password',
             '#title' => $this->t('Password'),
-            '#default_value' => $config->get('mtarget_ftp_password')
+            '#default_value' => $config->get('mtarget_ftp_password'),
+            '#description' => $this->t('The currently set password is hidden for security reasons.')
         );
         return parent::buildForm($form, $form_state);
     }
@@ -96,13 +99,30 @@ class JixSMSConfigurationForm extends ConfigFormBase
 
     public function submitForm(array &$form, FormStateInterface $form_state)
     {
+        $host = $form_state->getValue('mtarget_ftp_host');
+        $port = $form_state->getValue('mtarget_ftp_port');
+        $username = $form_state->getValue('mtarget_ftp_username');
+        $password = $form_state->getValue('mtarget_ftp_password');
+        if (empty($password)) {
+            $password = Drupal::config('jix_sms.general.settings')->get('mtarget_ftp_password');
+        }
+
         $this->configFactory->getEditable(static::SETTINGS)
             ->set('number_daily_jobs', $form_state->getValue('number_daily_jobs'))
-            ->set('mtarget_ftp_host', $form_state->getValue('mtarget_ftp_host'))
-            ->set('mtarget_ftp_port', $form_state->getValue('mtarget_ftp_port'))
-            ->set('mtarget_ftp_username', $form_state->getValue('mtarget_ftp_username'))
-            ->set('mtarget_ftp_password', $form_state->getValue('mtarget_ftp_password'))
+            ->set('mtarget_ftp_host', $host)
+            ->set('mtarget_ftp_port', $port)
+            ->set('mtarget_ftp_username', $username)
+            ->set('mtarget_ftp_password', $password)
             ->save();
         parent::submitForm($form, $form_state);
+
+        $sftp = new SFTP($host, $port);
+        $loggedIn = $sftp->login($username, $password);
+        if (false === $loggedIn) {
+            Drupal::messenger()->addWarning('Connection to SFTP server could not be verified...');
+        } else {
+            Drupal::messenger()->addStatus('Connection to SFTP server is successful...');
+            $sftp->disconnect();
+        }
     }
 }
