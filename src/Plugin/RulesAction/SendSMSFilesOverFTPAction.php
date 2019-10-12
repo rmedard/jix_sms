@@ -31,10 +31,10 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
         $username = $config->get('mtarget_ftp_username');
         $password = $config->get('mtarget_ftp_password');
         Drupal::logger('jix_sms')->info('username: ' . $username . ' | Password: ' . $password);
-        $sftp = new SFTP('sftp.mtarget.fr', 31022);
+        $sftp = new SFTP('212.129.45.200', 31022);
         $loggedIn = $sftp->login('jobincameroun', 'GcsJXxKaDY');
         if (false === $loggedIn) {
-            Drupal::logger('jix_sms')->error('Login Failed...');
+            Drupal::logger('jix_sms')->error('Login Failed. Make sure the outgoing port is open on this server.');
         } else {
             Drupal::logger('jix_sms')->info('Login Successful...');
             $sftp->disconnect();
