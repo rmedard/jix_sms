@@ -25,6 +25,7 @@ class SendSMSFilesOverFTPAction extends RulesActionBase
      */
     protected function doExecute()
     {
+        Drupal::logger('jix_sms')->info('Action executed...');
         define('NET_SFTP_LOGGING', NET_SFTP_LOG_COMPLEX);
         $sftp = new Net_SFTP('sftp.mtarget.fr', 31022);
         $loggedIn = $sftp->login('jobincameroun', 'GcsJXxKaDY');
